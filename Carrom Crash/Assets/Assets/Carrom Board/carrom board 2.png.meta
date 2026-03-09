@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f907b9efafbd801429eec19493900266
+guid: aba008abe0be77242a3e40ee35c90b5e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2293191318824531222
-    second: stricker_0
+      213: 5063943636210815736
+    second: carrom board 2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,10 +72,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: stricker_0
+      name: carrom board 2_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 6
-        width: 500
-        height: 500
+        x: 0
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aea447735a2fc20e0800000000000000
-      internalID: -2293191318824531222
+      spriteID: 8f212fe38edb64640800000000000000
+      internalID: 5063943636210815736
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      stricker_0: -2293191318824531222
+      carrom board 2_0: 5063943636210815736
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
