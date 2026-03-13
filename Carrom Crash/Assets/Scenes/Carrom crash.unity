@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 251856451}
   - component: {fileID: 251856450}
   - component: {fileID: 251856449}
-  - component: {fileID: 251856448}
+  - component: {fileID: 251856452}
   m_Layer: 0
   m_Name: Slider striker
   m_TagString: Untagged
@@ -138,22 +138,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &251856448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251856447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbe1c113cc19d434fb6f866eae6bca29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CarromSlider
-  actualStriker: {fileID: 1092133452}
-  minX: 10
-  maxX: 10
-  grabRadius: 0.5
 --- !u!58 &251856449
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -268,6 +252,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0.8, y: -33.25}
   m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &251856452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251856447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fbf85b4a77a8a346b34112ebc48e9d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarromSlider
+  actualStrikerScript: {fileID: 1092133461}
+  xLimit: 2.5
+  sliderYOffset: -4.5
 --- !u!1 &346690123
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,7 +1294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StrikerController
   initialPosition: {x: 0, y: -3.5}
   maxDragDistance: 3
-  forceMultiplier: 10
+  forceMultiplier: 15
   stopThreshold: 0.1
 --- !u!1 &1649506877
 GameObject:
