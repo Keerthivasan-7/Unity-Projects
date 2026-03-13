@@ -150,11 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbe1c113cc19d434fb6f866eae6bca29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarromSlider
-  strikerTransform: {fileID: 1092133452}
-  boardBounds: {fileID: 0}
+  actualStriker: {fileID: 1092133452}
   minX: 10
   maxX: 10
-  smoothing: 0.1
+  grabRadius: 0.5
 --- !u!58 &251856449
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1008,7 +1007,7 @@ Transform:
   m_GameObject: {fileID: 1070896049}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.69, y: -32.95, z: 0}
+  m_LocalPosition: {x: -24.75, y: -43.71, z: 0}
   m_LocalScale: {x: 5.941, y: 6.2767415, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1025,9 +1024,9 @@ GameObject:
   - component: {fileID: 1092133452}
   - component: {fileID: 1092133457}
   - component: {fileID: 1092133456}
-  - component: {fileID: 1092133454}
   - component: {fileID: 1092133459}
   - component: {fileID: 1092133460}
+  - component: {fileID: 1092133461}
   m_Layer: 0
   m_Name: Striker
   m_TagString: Untagged
@@ -1050,22 +1049,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1092133454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1092133451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a312fd7ff8618e34b88a5aedbe939a38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Striker
-  forceMultiplier: 50
-  maxDragDistance: 3
-  baselineY: -16.2
-  canPosition: 1
 --- !u!58 &1092133456
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1298,6 +1281,22 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &1092133461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092133451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2923cb6c4f5b2064ca0fb0e77963ba32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StrikerController
+  initialPosition: {x: 0, y: -3.5}
+  maxDragDistance: 3
+  forceMultiplier: 10
+  stopThreshold: 0.1
 --- !u!1 &1649506877
 GameObject:
   m_ObjectHideFlags: 0

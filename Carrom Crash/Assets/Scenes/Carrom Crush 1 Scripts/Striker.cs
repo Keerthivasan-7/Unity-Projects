@@ -1,49 +1,124 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Striker : MonoBehaviour
+[RequireComponent(typeof(LineRenderer))]
+public class StrikerController : MonoBehaviour
 {
+    [Header("Physics & Logic")]
+    public Vector2 initialPosition = new Vector2(0, -3.5f);
+    public float maxDragDistance = 3f;
+    public float forceMultiplier = 15f;
+    public float stopThreshold = 0.1f; // Speed below which we consider it "stopped"
+
     private PlayerInputs controls;
     private Camera mainCamera;
+    private Rigidbody2D rb;
+    private LineRenderer line;
+
+    private bool isDragging = false;
+    private bool hasBeenShot = false;
 
     private void Awake()
     {
         controls = new PlayerInputs();
-        mainCamera = Camera.main; // Cache the camera for performance
+        mainCamera = Camera.main;
+        rb = GetComponent<Rigidbody2D>();
+        line = GetComponent<LineRenderer>();
+
+        // Set the striker to the starting spot immediately
+        transform.position = initialPosition;
+        line.enabled = false;
     }
 
     private void OnEnable()
     {
         controls.Enable();
-        controls.Gameplay.Click.performed += OnClick;
+        controls.Gameplay.Click.started += OnPress;
+        controls.Gameplay.Click.canceled += OnRelease;
     }
 
-    private void OnClick(InputAction.CallbackContext context)
+    private void OnDisable()
     {
-        // 1. Get the current mouse position in pixels
-        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        controls.Gameplay.Click.started -= OnPress;
+        controls.Gameplay.Click.canceled -= OnRelease;
+        controls.Disable();
+    }
 
-        // 2. Convert that pixel position to a point in the 3D/2D Game World
-        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(mousePosition);
+    private void OnPress(InputAction.CallbackContext context)
+    {
+        // Don't allow clicking if the striker is still moving from a previous shot
+        if (rb.linearVelocity.magnitude > stopThreshold) return;
 
-        // 3. Shoot a "Point" raycast to see if there is a collider at that spot
-        // (Vector2.zero means we aren't shooting a line, just checking a single point)
-        RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
+        Vector3 mouseWorldPos = GetMouseWorldPosition();
+        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero);
 
-        // 4. Check if we hit something
-        if (hit.collider != null)
+        if (hit.collider != null && hit.collider.gameObject == gameObject)
         {
-            // 5. Check if the thing we hit is actually the Striker
-            if (hit.collider.gameObject == gameObject)
-            {
-                Debug.Log("Striker touched! Ready to aim.");
-                StartAiming();
-            }
+            isDragging = true;
+            line.enabled = true;
+            rb.linearVelocity = Vector2.zero;
         }
     }
 
-    private void StartAiming()
+    private void Update()
     {
-        // Your logic for dragging the striker goes here
+        if (isDragging)
+        {
+            UpdateLine();
+        }
+        else if (hasBeenShot)
+        {
+            CheckForStop();
+        }
+    }
+
+    private void UpdateLine()
+    {
+        Vector3 currentMousePos = GetMouseWorldPosition();
+        Vector3 dragVector = transform.position - currentMousePos;
+
+        // Clamp the line length to match your maxDragDistance
+        float distance = Mathf.Min(dragVector.magnitude, maxDragDistance);
+        Vector3 lineEndPoint = transform.position - (dragVector.normalized * distance);
+
+        line.SetPosition(0, transform.position); // Start at center
+        line.SetPosition(1, lineEndPoint);      // End at mouse (clamped)
+    }
+
+    private void OnRelease(InputAction.CallbackContext context)
+    {
+        if (!isDragging) return;
+
+        isDragging = false;
+        line.enabled = false;
+
+        Vector3 releasePoint = GetMouseWorldPosition();
+        Vector3 dragVector = transform.position - releasePoint;
+
+        float distance = Mathf.Min(dragVector.magnitude, maxDragDistance);
+        Vector3 finalForce = dragVector.normalized * distance * forceMultiplier;
+
+        rb.AddForce(finalForce, ForceMode2D.Impulse);
+        hasBeenShot = true;
+    }
+
+    private void CheckForStop()
+    {
+        // Check if the striker has slowed down enough to reset
+        if (rb.linearVelocity.magnitude < stopThreshold)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            transform.position = initialPosition;
+            hasBeenShot = false;
+        }
+    }
+
+    private Vector3 GetMouseWorldPosition()
+    {
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
+        worldPos.z = 0;
+        return worldPos;
     }
 }
